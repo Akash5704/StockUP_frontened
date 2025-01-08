@@ -1,0 +1,82 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6rem 2rem;
+  background: linear-gradient(to right, #f8fafc, #f1f5f9);
+  min-height: 80vh;
+  margin-top: 4rem;
+}
+
+.content {
+  flex: 1;
+  max-width: 600px;
+  padding-right: 2rem;
+}
+
+.content h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.content p {
+  font-size: 1.25rem;
+  color: #475569;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #1d4ed8;
+}
+
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+
+  .content {
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+
+  .content h1 {
+    font-size: 2.5rem;
+  }
+
+  .imageContainer {
+    width: 100%;
+  }
+}
