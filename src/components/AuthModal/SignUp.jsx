@@ -9,10 +9,10 @@ export default function SignUp() {
   const navigate = useNavigate();
   const handleSubmit = (e) =>{
     e.preventDefault()
-    axios.post('http://localhost:3001/register',{email,password})
+    axios.post('https://backened-n70z.onrender.com/register',{email,password})
     .then(result => 
         {console.log(result)
-          navigate('/welcome')
+          navigate('/home')
         }
 
     )
