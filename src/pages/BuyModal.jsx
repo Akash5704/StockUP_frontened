@@ -1,22 +1,50 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { buyStock } from '../api';
+import {jwtDecode} from "jwt-decode"
+import { useSnackbar } from 'notistack';
 
 export default function BuyModal({ isOpen, onClose, stock }) {
   const [shares, setShares] = useState('');
   const [error, setError] = useState('');
+  const { enqueueSnackbar } = useSnackbar()
 
   if (!isOpen) return null;
+  function getUserFromToken() {
+    const token = sessionStorage.getItem("User");  // Assuming the JWT is stored in sessionStorage as "User"
+    
+    if (!token) {
+        console.log("No token found in session storage.");
+        return null;
+    }
+
+    try {
+        const decoded = jwtDecode(token);  // Decode the JWT
+        return decoded;  // The decoded object will contain user details
+    } catch (error) {
+        console.log("Failed to decode the token:", error);
+        return null;
+    }
+}
+
+  const user = getUserFromToken();
+
 
   const totalCost = Number(shares) * stock.price;
-
-  const handleSubmit = (e) => {
+  
+  async function handleSubmit(e){
     e.preventDefault();
     if (!shares || Number(shares) <= 0) {
       setError('Please enter a valid number of shares');
       return;
     }
     // Handle purchase logic here
-    console.log(`Buying ${shares} shares of ${stock.symbol}`);
+
+    let response = await buyStock(user.email ,stock.symbol,totalCost,shares)
+    console.log(response);
+    // console.log(sessionStorage.getItem("User"));
+    
+    enqueueSnackbar(`Buying ${shares} shares of ${stock.symbol}`);
     onClose();
   };
 
@@ -45,6 +73,7 @@ export default function BuyModal({ isOpen, onClose, stock }) {
               type="number"
               id="shares"
               value={shares}
+              name='quantity'
               onChange={(e) => {
                 setShares(e.target.value);
                 setError('');

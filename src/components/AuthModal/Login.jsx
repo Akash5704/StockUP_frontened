@@ -2,26 +2,32 @@ import React,{useState} from 'react'
 import styles from './AuthModal.module.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { verifyUser } from '../../api';
 
 export default function Login() {
-  const [email,setEmail] = useState();
-  const [password,setPassword] = useState();
+  const [user, setuser] = useState({
+    email: "",
+    password:""
+  })
   const navigate = useNavigate();
-  const handleSubmit = (e) =>{
-      e.preventDefault()
-      axios.post('https://backened-n70z.onrender.com/login',{email,password})
-      .then(result => 
-          {console.log(result)
-              if(result.data === "Success"){
-                // Store login status in sessionStorage
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('userEmail', email); // Optional: store user email or token
-                navigate('/home');
-              }
-          }
+
   
-      )
-      .catch(err => console.log(err))
+  function handleChange(e){
+    setuser({...user,[e.target.name]: e.target.value})
+}
+
+  async function handleSubmit(e) {
+      e.preventDefault()
+      let response = await verifyUser(user)
+        if(response){
+            sessionStorage.setItem("User", response)
+            axios.defaults.headers.common["authorization"] = `Bearer ${response}`
+            navigate('/home')
+        }
+        else{
+            alert("Login Failed")
+        }
+        
   }
   return (
     <div>
@@ -35,7 +41,7 @@ export default function Login() {
         id="email"
         name="email"
         required
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
       />
     </div>
@@ -48,7 +54,7 @@ export default function Login() {
         id="password"
         name="password"
         required
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
       />
     </div>

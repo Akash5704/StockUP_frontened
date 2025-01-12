@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Menu, X, LayoutDashboard, User, Briefcase, LogOut } from 'lucide-react'; // Import LogOut icon
-
+import { Link } from 'react-router-dom';
 const navItems = [
-  { label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" />, href: '/' },
+  { label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" />, href: '/home' },
   { label: 'Profile', icon: <User className="w-5 h-5" />, href: '/profile' },
   { label: 'Portfolio', icon: <Briefcase className="w-5 h-5" />, href: '/portfolio' },
 ];
@@ -40,13 +40,18 @@ export default function Sidebar({ handleLogout }) {
             <ul className="space-y-4">
               {navItems.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md p-3 transition-colors"
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </a>
+                
+                    <span className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md p-3 transition-colors">
+                      {item.icon}
+                      {
+                        <Link to={item.href}>
+                        <button>
+                          {item.label}
+                        </button>
+                      </Link>
+                      }
+
+                    </span>
                 </li>
               ))}
             </ul>
