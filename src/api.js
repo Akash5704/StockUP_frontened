@@ -1,5 +1,5 @@
 import axios from "axios"
-const URL = "http://localhost:3000"
+const URL = "https://stockup-backend.onrender.com"
 export async function get(user) {
 
     // https://localhost:3000/posts/12345
